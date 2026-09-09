@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACKLIST | خدمات سوفت وير وفك تابلت الثانوية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0d10;
+            --card-bg: #13171f;
+            --accent-color: #ff2a5f;
+            --accent-glow: rgba(255, 42, 95, 0.4);
+            --text-main: #edf1f5;
+            --text-muted: #9da5b1;
+            --price-green: #00ff88;
+            --border-color: #212631;
+            --neon-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* الثيمات */
+        body.theme-cyan {
+            --bg-color: #050b14;
+            --card-bg: #0c1626;
+            --accent-color: #00f0ff;
+            --accent-glow: rgba(0, 240, 255, 0.4);
+            --border-color: #162c46;
+        }
+
+        body.theme-rgb {
+            --bg-color: #080808;
+            --card-bg: #121212;
+            --accent-color: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.5);
+            --border-color: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 80px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* خلفية نيون متفاعلة مع الماوس */
+        .mouse-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: background 0.3s ease;
+            mix-blend-mode: screen;
+        }
+
+        /* شريط التنبيهات */
+        .announcement-bar {
+            background: linear-gradient(90deg, var(--accent-color), #ff6b00);
+            color: #fff;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: relative;
+            box-shadow: 0 2px 10px var(--accent-glow);
+        }
+
+        .announcement-track {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+
+        .announcement-item {
+            display: inline-block;
+            margin: 0 30px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* شريط تبديل الثيمات */
+        .theme-switcher {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .theme-btn:hover, .theme-btn.active {
+            border-color: var(--accent-color);
+            box-shadow: var(--neon-shadow);
+            color: var(--accent-color);
+        }
+
+        header {
+            padding: 30px 20px 20px;
+            text-align: center;
+        }
+
+        .brand-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+            text-shadow: var(--neon-shadow);
+        }
+
+        .brand-title span {
+            color: var(--accent-color);
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--price-green);
+            color: var(--price-green);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--price-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--price-green);
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 30px auto 0;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-right: 4px solid var(--accent-color);
+            padding-right: 12px;
+        }
+
+        /* حاسبة التكلفة والخصم */
+        .calculator-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: var(--neon-shadow);
+        }
+
+        .calc-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .calc-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .calc-group label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .calc-input {
+            background-color: #090b0e;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .calc-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .calc-result {
+            background: #090b0e;
+            border: 1px dashed var(--price-green);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .calc-total-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--price-green);
+        }
+
+        .calc-discount-badge {
+            color: #ffcc00;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* الأجهزة */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: var(--neon-shadow);
+        }
+
+        .card-head {
+            margin-bottom: 15px;
+        }
+
+        .device-badge {
+            display: inline-block;
+            background-color: #1a202c;
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .card-head h3 {
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .android-ver {
+            font-size: 0.88rem;
+            color: #00f0ff;
+            font-weight: 600;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .card-desc li {
+            margin-bottom: 8px;
+            list-style: none;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        .card-desc li::before {
+            content: "✔";
+            position: absolute;
+            right: 0;
+            color: var(--price-green);
+            font-size: 0.85rem;
+        }
+
+        .price-box {
+            background-color: #090b0e;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .price-amount {
+            color: var(--price-green);
+            font-size: 1.35rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .price-type {
+            color: #ffcc00;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-top: 3px;
+            display: block;
+        }
+
+        .card-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #25D366;
+            color: #fff;
+            padding: 13px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .card-btn:hover {
+            background-color: #1eb857;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* طرق الدفع والنسخ */
+        .payment-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .payment-card h3 {
+            color: #ff9900;
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+        }
+
+        .cash-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .cash-num {
+            background-color: #090b0e;
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 800;
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: 1px solid #ff990066;
+            direction: ltr;
+            letter-spacing: 2px;
+        }
+
+        .copy-btn {
+            background-color: #ff9900;
+            color: #000;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: #e68a00;
+        }
+
+        .copy-alert {
+            display: none;
+            color: var(--price-green);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .float-wa {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #25D366;
+            color: #fff;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            text-decoration: none;
+            z-index: 999;
+            transition: transform 0.2s ease;
+        }
+
+        .float-wa:hover {
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- إضافة الماوس النيون -->
+    <div class="mouse-glow" id="mouseGlow"></div>
+
+    <!-- شريط التنبيهات -->
+    <div class="announcement-bar">
+        <div class="announcement-track">
+            <span class="announcement-item">🔥 خصم تلقائي عند طلب فك أجهزة متعددة بحاسبة الخصم!</span>
+            <span class="announcement-item">⚡ أسعار خاصة لأصحاب المحلات والكميات!</span>
+            <span class="announcement-item">🚀 ثغرات متحدثة 100% بدون أي تعليق أو تقطيع!</span>
+        </div>
+    </div>
+
+    <header>
+        <h1 class="brand-title">BLACK<span>LIST</span></h1>
+        <p class="subtitle">تخطي النوكس وطبات أجهزة الثانوية بأعلى ثبات وأمان</p>
+
+        <!-- مبدل الألوان Neon Theme Toggle -->
+        <div class="theme-switcher">
+            <button class="theme-btn active" onclick="setTheme('default', this)"><i class="fas fa-circle" style="color: #ff2a5f;"></i> Red Cyber</button>
+            <button class="theme-btn" onclick="setTheme('theme-cyan', this)"><i class="fas fa-circle" style="color: #00f0ff;"></i> Neon Cyan</button>
+            <button class="theme-btn" onclick="setTheme('theme-rgb', this)"><i class="fas fa-circle" style="color: #a855f7;"></i> Purple Wave</button>
+        </div>
+
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            جميع الثغرات والأدوات متحدثة وشغالة 100%
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- الإحصائيات -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">+150</span>
+                <span class="stat-label">جهاز تم فكه بنجاح</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">أمان وبدون تقطيع</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">دعم ومتابعة واتساب</span>
+            </div>
+        </div>
+
+        <!-- حاسبة الخصم التفاعلية (Discount Calculator) -->
+        <div class="calculator-card">
+            <div class="calc-header">
+                <i class="fas fa-calculator" style="color: var(--accent-color);"></i>
+                <h3>حاسبة تكلفة الفك والخصم السريع</h3>
+            </div>
+            <div class="calc-grid">
+                <div class="calc-group">
+                    <label>اختر نوع ونظام التابلت:</label>
+                    <select id="calcDevice" class="calc-input" onchange="calculatePrice()">
+                        <option value="200">Samsung Tab A9+ (أندرويد 16) - 200ج</option>
+                        <option value="150">Samsung Tab A9+ (أندرويد 15) - 150ج</option>
+                        <option value="100">Samsung Tab A7 (أندرويد 12) - 100ج</option>
+                    </select>
+                </div>
+                <div class="calc-group">
+                    <label>عدد الأجهزة:</label>
+                    <input type="number" id="calcCount" class="calc-input" value="1" min="1" max="20" oninput="calculatePrice()">
+                </div>
+            </div>
+
+            <div class="calc-result">
+                <span class="calc-discount-badge" id="calcDiscountText">خصم 0% (أضف أجهزة أكثر للحصول على الخصم)</span>
+                <div class="calc-total-price" id="calcTotalPrice">200 جنيه مصري</div>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">السعر شامل التخفيض الفوري عند إرسال الطلب</p>
+            </div>
+        </div>
+
+        <!-- الأجهزة والخدمات المتاحة -->
+        <h2 class="section-title">الأجهزة والخدمات المتاحة</h2>
+
+        <div class="grid">
+
+            <!-- Samsung Tab A9+ (Android 16) -->
+            <div class="card">
+                <div>
+                    <div class="card-head">
+                        <span class="device-badge">Samsung Galaxy</span>
+                        <h3>Tab A9+ <span class="android-ver">(أندرويد 16)</span></h3>
+                    </div>
+                    <ul class="card-desc">
+                        <li>إظهار الخانة المختفية بنجاح وثبات تام.</li>
+                        <li>تفعيل الموجة المفتوحة بالكامل بدون مشاكل.</li>
+                        <li>تشغيل الكاميرا وكل الألعاب والبرامج.</li>
+                        <li>بدون أي تهنيج أو تعليق في النظام.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="price-box">
+                        <span class="price-amount">200 إلى 250 جنيه</span>
+                        <span class="price-type">🔥 فك مؤقت (حسب الحماية)</span>
+                    </div>
+                    <a href="https://wa.me/201212426158?text=يا%20أسطى%20عندي%20تابلت%20A9%2B%20اندرويد%2016%20وعاوز%20افكه" class="card-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> ابعتلي على الواتساب
+                    </a>
+                </div>
+            </div>
+
+            <!-- Samsung Tab A9+ (Android 15) -->
+            <div class="card">
+                <div>
+                    <div class="card-head">
+                        <span class="device-badge">Samsung Galaxy</span>
+                        <h3>Tab A9+ <span class="android-ver">(أندرويد 15)</span></h3>
+                    </div>
+                    <ul class="card-desc">
+                        <li>تخطي النوكس وطبة المنظومة تماماً.</li>
+                        <li>نظام خفيف وسريع جداً للجهاز.</li>
+                        <li>تنزيل كل الألعاب والبرامج من غير قيود.</li>
+                        <li>حماية كاملة للجهاز وأمان بدون مشاكل.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="price-box">
+                        <span class="price-amount">150 جنيه</span>
+                        <span class="price-type">🔥 فك مؤقت</span>
+                    </div>
+                    <a href="https://wa.me/201212426158?text=يا%20أسطى%20عندي%20تابلت%20A9%2B%20اندرويد%2015%20وعاوز%20افكه" class="card-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> ابعتلي على الواتساب
+                    </a>
+                </div>
+            </div>
+
+            <!-- Samsung Tab A7 (Android 12) -->
+            <div class="card">
+                <div>
+                    <div class="card-head">
+                        <span class="device-badge">Samsung Galaxy</span>
+                        <h3>Tab A7 <span class="android-ver">(أندرويد 12)</span></h3>
+                    </div>
+                    <ul class="card-desc">
+                        <li>استرجاع ضبط المصنع المختفي بأمان.</li>
+                        <li>إزالة النوكس وطبة النظام (دائم أو مؤقت).</li>
+                        <li>جهاز طيارة في اليوتيوب والألعاب المتنوعة.</li>
+                        <li>حل نهائي ومجرب ومضمون 100%.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="price-box">
+                        <span class="price-amount">100 جنيه</span>
+                        <span class="price-type">🔥 فك دائم أو مؤقت</span>
+                    </div>
+                    <a href="https://wa.me/201212426158?text=يا%20أسطى%20عندي%20تابلت%20A7%20اندرويد%2012%20وعاوز%20افكه" class="card-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> ابعتلي على الواتساب
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- طرق الدفع والنسخ -->
+        <div class="payment-card">
+            <h3><i class="fas fa-wallet"></i> طرق تحويل الكاش (فودافون / أورنج / اتصالات)</h3>
+            <p>بعد الاتفاق، تقدر تحول العربون أو باقي المبلغ على الرقم ده:</p>
+            
+            <div class="cash-wrapper">
+                <div class="cash-num" id="cashNumber">01091588070</div>
+                <button class="copy-btn" onclick="copyCashNumber()">
+                    <i class="fas fa-copy"></i> نسخ الرقم
+                </button>
+            </div>
+            <div class="copy-alert" id="copyAlert">✔ تم نسخ الرقم بنجاح!</div>
+
+            <p style="margin-top: 15px;">أول ما تحول ابعت صورة الإيصال على الواتساب عشان نثبت حجزك ونبدأ فوراً.</p>
+        </div>
+
+    </div>
+
+    <!-- زر واتساب العائم -->
+    <a href="https://wa.me/201212426158" class="float-wa" target="_blank" title="تواصل معنا على الواتساب">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        <p>© 2026 BLACKLIST — جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- JavaScript المُميزات والتفاعل -->
+    <script>
+        // 1. حركة النيون مع الماوس
+        const glow = document.getElementById('mouseGlow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // 2. تغيير الثيم الألوان
+        function setTheme(themeName, btnElement) {
+            document.body.className = '';
+            if (themeName !== 'default') {
+                document.body.classList.add(themeName);
+            }
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+        }
+
+        // 3. حاسبة الأسعار والخصومات
+        function calculatePrice() {
+            const unitPrice = parseFloat(document.getElementById('calcDevice').value);
+            const count = parseInt(document.getElementById('calcCount').value) || 1;
+            
+            let discountRate = 0;
+            if (count === 2) {
+                discountRate = 0.10; // خصم 10% لجهازين
+            } else if (count >= 3 && count < 5) {
+                discountRate = 0.15; // خصم 15% من 3 لـ 4 أجهزة
+            } else if (count >= 5) {
+                discountRate = 0.20; // خصم 20% لـ 5 أجهزة فأكثر
+            }
+
+            const rawTotal = unitPrice * count;
+            const finalTotal = rawTotal - (rawTotal * discountRate);
+
+            document.getElementById('calcTotalPrice').innerText = finalTotal.toLocaleString('ar-EG') + ' جنيه مصري';
+            
+            if (discountRate > 0) {
+                document.getElementById('calcDiscountText').innerText = `🔥 مبروك! حصلت على خصم ${discountRate * 100}% (${(rawTotal * discountRate)} جنيه توفير)`;
+                document.getElementById('calcDiscountText').style.color = '#00ff88';
+            } else {
+                document.getElementById('calcDiscountText').innerText = 'خصم 0% (أضف أجهزة أكثر للحصول على الخصم)';
+                document.getElementById('calcDiscountText').style.color = '#ffcc00';
+            }
+        }
+
+        // 4. نسخ رقم الكاش
+        function copyCashNumber() {
+            var numText = document.getElementById("cashNumber").innerText;
+            navigator.clipboard.writeText(numText).then(function() {
+                var alertBox = document.getElementById("copyAlert");
+                alertBox.style.display = "block";
+                setTimeout(function() {
+                    alertBox.style.display = "none";
+                }, 3000);
+            });
+        }
+    </script>
+
+</body>
+</html>
