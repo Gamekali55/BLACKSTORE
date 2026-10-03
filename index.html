@@ -220,6 +220,57 @@
             font-size: 0.92rem;
         }
 
+        /* بوكس تحميل الملفات الشامل الجديد */
+        .download-box {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), var(--card-bg));
+            border: 1px solid var(--accent-color);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: var(--neon-shadow);
+        }
+
+        .download-box h3 {
+            color: #fff;
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .download-box h3 i {
+            color: var(--accent-color);
+        }
+
+        .download-box p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.05rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--neon-shadow);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
         /* طرق تقديم الخدمة (من مكانك أو تسليم تابلت) */
         .service-methods-grid {
             display: grid;
@@ -619,7 +670,7 @@
         }
 
         .copy-btn {
-            Wbackground-color: #ff9900;
+            background-color: #ff9900;
             color: #000;
             border: none;
             padding: 14px 20px;
@@ -768,6 +819,15 @@
             </div>
         </div>
 
+        <!-- خانة تحميل ملفات البرامج التعريفات الشاملة (ملف الـ RAR المباشر) -->
+        <div class="download-box">
+            <h3><i class="fas fa-download"></i> مركز تحميل أدوات وبرامج الفك الشاملة (برابط مباشر)</h3>
+            <p>حمل ملف الـ RAR الذي يحتوي على كافة البرامج، التعريفات، والأدوات المطلوبة لعملية الفك من مكانك:</p>
+            <a href="https://www.mediafire.com/file/ukcdorkwh41o9ig/BLACKLIST.rar/file" class="download-btn" target="_blank">
+                <i class="fas fa-file-archive"></i> تحميل ملف البرامج والأدوات (BLACKLIST.RAR)
+            </a>
+        </div>
+
         <!-- قسم طريقتي الخدمة الجديد -->
         <h2 class="section-title">طرق تقديم الخدمة (اختر الأنسب لك)</h2>
         <div class="service-methods-grid">
@@ -781,6 +841,7 @@
                         لو حابب تفك جهازك وأنت في مكانك، يتطلب تجهيز الآتي:
                         <ul>
                             <li>تنزيل برامج: <strong>UltraViewer</strong> &amp; <strong>USB over Network</strong> &amp; <strong>RAdmin VPN</strong>.</li>
+                            <li>تثبيت تعريفات: <strong>Samsung USB Driver</strong> لتعريف التابلت على الكمبيوتر.</li>
                             <li>وجود <strong>كابل معدل</strong> لربط الجهاز بالكمبيوتر بشكل صحيح.</li>
                         </ul>
                     </div>
@@ -926,7 +987,7 @@
 
         </div>
 
-        <!-- قسم الأسئلة الشائعة (FAQ Accordion) الجديد -->
+        <!-- قسم الأسئلة الشائعة (FAQ Accordion) -->
         <div class="faq-section">
             <h2 class="section-title">الأسئلة الشائعة (FAQ)</h2>
             
